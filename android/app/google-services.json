@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "489812380669",
+    "project_id": "firecovid-40f24",
+    "storage_bucket": "firecovid-40f24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489812380669:android:d274674d16b66f0b23e794",
+        "android_client_info": {
+          "package_name": "com.example.covid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489812380669-levgnlmbjnj9lttigganbt2vmsdtfbu8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0kM4XhLZZgwXnVDcxY-YHM7dclo_Hjv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489812380669-levgnlmbjnj9lttigganbt2vmsdtfbu8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
