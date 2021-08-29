@@ -21,8 +21,23 @@ class _LoginScreenState extends State<LoginScreen> {
     // TextEditingController? _passwordController;
     final logo = Image.asset(
       "assets/logo.png",
-      height: bg.size.height / 2,
+      height: bg.size.height / 2.5,
     );
+
+    // final forgotdialog = AwesomeDialog(
+    //   context: context,
+    //   animType: AnimType.SCALE,
+    //   dialogType: DialogType.INFO,
+    //   body: Center(
+    //     child: Text(
+    //       'Enter Email',
+    //       style: TextStyle(fontStyle: FontStyle.italic),
+    //     ),
+    //   ),
+    //   title: 'This is Ignored',
+    //   desc: 'This is also Ignored',
+    //   btnOkOnPress: () {},
+    // )..show();
     final emailField = TextFormField(
       enabled: isSubmitting,
       controller: emailController,
@@ -69,9 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                //   forgotdialog;
+              },
               child: Text(
-                'forgot Password',
+                'Forgot Password ?',
                 style: Theme.of(context)
                     .textTheme
                     .caption!
@@ -130,11 +147,39 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
+    final anonyomusButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25.0),
+      color: Colors.white,
+      child: MaterialButton(
+        minWidth: bg.size.width / 1.2,
+        padding: const EdgeInsets.fromLTRB(0, 15, 10, 15),
+        onPressed: () async {
+          UserCredential userCredential =
+              await FirebaseAuth.instance.signInAnonymously();
+          Navigator.of(context).pushNamed(AppRoutes.homeRoute);
+        },
+        child: const Text(
+          "Anonymous",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+
     final buttons = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         loginButton,
+        const Padding(
+          padding: EdgeInsets.all(6),
+        ),
+        anonyomusButton,
         const Padding(
           padding: EdgeInsets.all(6),
         ),
@@ -164,15 +209,23 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
+    final LoginText = Text(
+      'Login',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.deepPurpleAccent,
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [logo, fields, buttons],
+            children: [logo, LoginText, fields, buttons],
           ),
         ),
       ),

@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // TextEditingController? _passwordController;
     final logo = Image.asset(
       "assets/logo.png",
-      height: bg.size.height / 2,
+      height: bg.size.height / 2.5,
     );
     final nameField = TextFormField(
       enabled: isSubmitting,
@@ -133,7 +133,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 email: emailController.text,
                 password: passwordController.text,
               );
-              Navigator.of(context).pushNamed(AppRoutes.homeRoute);
+              await userCredential.user!.updateDisplayName(nameController.text);
+              await userCredential.user!.reload();
             } on FirebaseAuthException catch (e) {
               if (e.code == 'weak-password') {
                 print('The password provided is too weak.');
@@ -194,6 +195,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ],
     );
+    final RegisterText = Text(
+      'Register',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.deepPurpleAccent,
       body: Form(
@@ -202,7 +211,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [logo, fields, buttons],
+            children: [logo, RegisterText, fields, buttons],
           ),
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:covid/views/open_screen.dart';
+import 'package:covid/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'theme/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'COVIDCARE',
       routes: AppRoutes.define(),
-      home: const OpeningScreen(),
+      home: const LoginScreen(),
     );
   }
 }
