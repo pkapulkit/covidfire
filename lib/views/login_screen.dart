@@ -84,9 +84,48 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             MaterialButton(
-              onPressed: () {
-                //   forgotdialog;
-              },
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                        elevation: 5,
+                        backgroundColor: Colors.blueGrey,
+                        child: Container(
+                          height: 150,
+                          width: 500,
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Forgot Password',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                emailField,
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      try {
+                                        if (emailController.text.isNotEmpty) {
+                                          FirebaseAuth.instance
+                                              .sendPasswordResetEmail(
+                                                  email: emailController.text);
+                                          Navigator.pop(context);
+                                        }
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                    },
+                                    child: Text('Send Request'))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  //child: ForgotDialog(),
+                  barrierDismissible: false),
               child: Text(
                 'Forgot Password ?',
                 style: Theme.of(context)
