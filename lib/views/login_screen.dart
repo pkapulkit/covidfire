@@ -1,6 +1,11 @@
+import 'package:covid/Firebase/Constant.dart';
+import 'package:covid/Firebase/auth.dart';
+import 'package:covid/theme/localdb.dart';
 import 'package:covid/theme/routes.dart';
+import 'package:covid/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +18,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  signInmethod(context) async {
+    await signInWithGoogle();
+    constant.username = (await LocalDataSaver.getName())!;
+    constant.useremail = (await LocalDataSaver.getEmail())!;
+    constant.userimageurl = (await LocalDataSaver.getImage())!;
+    print(constant.username);
+    print(constant.useremail);
+    print(constant.userimageurl);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bg = MediaQuery.of(context);
@@ -24,20 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
       height: bg.size.height / 2.5,
     );
 
-    // final forgotdialog = AwesomeDialog(
-    //   context: context,
-    //   animType: AnimType.SCALE,
-    //   dialogType: DialogType.INFO,
-    //   body: Center(
-    //     child: Text(
-    //       'Enter Email',
-    //       style: TextStyle(fontStyle: FontStyle.italic),
-    //     ),
-    //   ),
-    //   title: 'This is Ignored',
-    //   desc: 'This is also Ignored',
-    //   btnOkOnPress: () {},
-    // )..show();
     final emailField = TextFormField(
       enabled: isSubmitting,
       controller: emailController,
@@ -186,30 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    final anonyomusButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(25.0),
-      color: Colors.white,
-      child: MaterialButton(
-        minWidth: bg.size.width / 1.2,
-        padding: const EdgeInsets.fromLTRB(0, 15, 10, 15),
-        onPressed: () async {
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInAnonymously();
-          Navigator.of(context).pushNamed(AppRoutes.homeRoute);
-        },
-        child: const Text(
-          "Anonymous",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-
     final buttons = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -218,7 +196,22 @@ class _LoginScreenState extends State<LoginScreen> {
         const Padding(
           padding: EdgeInsets.all(6),
         ),
-        anonyomusButton,
+        SignInButton(
+          Buttons.Google,
+          onPressed: () {
+            signInmethod(context);
+            FirebaseAuth.instance.idTokenChanges().listen((User? user) {
+              if (user == null) {
+                print('User is currently signed out!');
+              } else {
+                print('User is signed in!');
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              }
+            });
+          },
+          elevation: 10,
+        ),
         const Padding(
           padding: EdgeInsets.all(6),
         ),
