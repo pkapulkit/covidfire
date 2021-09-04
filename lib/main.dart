@@ -32,7 +32,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getLogInState();
   }
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'COVIDCARE',
       routes: AppRoutes.define(),
-      home: isLogin ? LoginScreen() : HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
